@@ -1,0 +1,61 @@
+MIT License
+
+Copyright (c) 2025
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+IMPORTANT: Individual Solutions and Their Licenses
+
+This framework integrates several open-source talking-head solutions. Each solution
+maintains its own license. Please review and comply with each solution's license
+before use:
+
+1. SadTalker
+   Repository: https://github.com/OpenTalker/SadTalker
+   License: Check repository for current license terms
+
+2. Wav2Lip
+   Repository: https://github.com/Rudrabha/Wav2Lip
+   License: Research and Personal Use Only (Non-Commercial)
+   Note: Commercial use requires separate permission from authors
+
+3. EchoMimic
+   Repository: https://github.com/antgroup/echomimic
+   License: Check repository for current license terms
+
+4. V-Express
+   Repository: https://github.com/tencent-ailab/V-Express
+   License: Check repository for current license terms
+
+5. Audio2Head
+   Repository: https://github.com/wangsuzhen/Audio2Head
+   License: Check repository for current license terms
+
+6. Coqui TTS
+   Repository: https://github.com/coqui-ai/TTS
+   License: MPL 2.0 (Mozilla Public License 2.0)
+
+7. Piper TTS
+   Repository: https://github.com/rhasspy/piper
+   License: MIT License
+
+Please ensure you comply with all applicable licenses before using this framework
+for commercial purposes or distributing derivative works.
