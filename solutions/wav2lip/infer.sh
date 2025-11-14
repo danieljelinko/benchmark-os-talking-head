@@ -15,23 +15,21 @@ set -euo pipefail
 #   --tts: TTS backend to use: coqui or piper (default: coqui)
 #   --checkpoint: Path to checkpoint (default: checkpoints/wav2lip_gan.pth)
 
-# Source conda
-if [ -f "$HOME/miniconda/etc/profile.d/conda.sh" ]; then
-    source "$HOME/miniconda/etc/profile.d/conda.sh"
-elif [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
-    source "$HOME/anaconda3/etc/profile.d/conda.sh"
-else
-    echo "ERROR: Could not find conda.sh"
-    exit 1
-fi
-
-# Activate environment
-conda activate wav2lip
-
 # Get directories
 SOLUTION_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$SOLUTION_DIR/repo"
 REPO_ROOT="$(dirname "$(dirname "$SOLUTION_DIR")")"
+VENV_PATH="$SOLUTION_DIR/.venv"
+
+# Check if venv exists
+if [ ! -d "$VENV_PATH" ]; then
+    echo "ERROR: Virtual environment not found at: $VENV_PATH"
+    echo "Please run: bash solutions/wav2lip/setup.sh"
+    exit 1
+fi
+
+# Activate virtual environment
+source "$VENV_PATH/bin/activate"
 
 # Initialize argument variables
 IMAGE=""
