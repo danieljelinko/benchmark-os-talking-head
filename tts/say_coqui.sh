@@ -24,22 +24,20 @@ if [ -z "$TEXT" ]; then
     exit 1
 fi
 
-# Source conda
-if [ -f "$HOME/miniconda/etc/profile.d/conda.sh" ]; then
-    source "$HOME/miniconda/etc/profile.d/conda.sh"
-elif [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
-    source "$HOME/anaconda3/etc/profile.d/conda.sh"
-else
-    echo "ERROR: Could not find conda.sh. Is conda installed?"
+# Get script directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+VENV_PATH="$SCRIPT_DIR/coqui_env/.venv"
+
+# Check if venv exists
+if [ ! -d "$VENV_PATH" ]; then
+    echo "ERROR: Coqui TTS virtual environment not found at: $VENV_PATH"
+    echo "Please run: bash tts/setup_coqui.sh"
     exit 1
 fi
 
-# Activate TTS environment
-conda activate tts
-
-# Get script directory and call Python TTS script
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+# Activate virtual environment
+source "$VENV_PATH/bin/activate"
 
 python "$REPO_ROOT/common/coqui_tts_say.py" "$TEXT" "$OUTPUT_PATH" "$MODEL_NAME"
 
