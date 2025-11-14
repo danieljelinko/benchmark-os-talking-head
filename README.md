@@ -8,7 +8,7 @@ This repository provides a standardized framework to evaluate and compare differ
 
 ## What This Framework Does
 
-- **Automated Setup**: Each solution has dedicated setup scripts that handle dependency installation, conda environment creation, and model weight downloads
+- **Automated Setup**: Each solution has dedicated setup scripts that handle dependency installation, UV virtual environment creation, and model weight downloads
 - **Unified Interface**: All solutions use the same command-line interface for inference
 - **Text-to-Speech Integration**: Optional TTS backends (Coqui TTS, Piper) allow text-only input
 - **Standardized Output**: All results are saved to a consistent directory structure for easy comparison
@@ -38,10 +38,10 @@ This repository provides a standardized framework to evaluate and compare differ
 git clone https://github.com/YOUR_USERNAME/benchmark-os-talking-head.git
 cd benchmark-os-talking-head
 
-# Install system dependencies (git, git-lfs, ffmpeg, miniconda)
+# Install system dependencies (git, git-lfs, ffmpeg, UV)
 bash bootstrap/install_system_deps.sh
 
-# Restart your shell or source your bashrc to get conda on PATH
+# Restart your shell or source your bashrc to get UV on PATH
 source ~/.bashrc
 ```
 
@@ -163,8 +163,8 @@ benchmark-os-talking-head/
 │   ├── ensure_ffmpeg.sh         # Verify ffmpeg installation
 │   └── coqui_tts_say.py         # Python TTS wrapper
 ├── bootstrap/                   # System-level setup
-│   ├── install_system_deps.sh   # Install git, ffmpeg, conda
-│   └── make_conda.sh            # Install/configure Miniconda
+│   ├── install_system_deps.sh   # Install git, ffmpeg, UV
+│   └── make_uv.sh               # Install/configure UV
 ├── tts/                         # Text-to-speech modules
 │   ├── setup_coqui.sh           # Setup Coqui TTS
 │   ├── say_coqui.sh             # Generate speech with Coqui
@@ -214,11 +214,11 @@ For best cartoon results, consider fine-tuning or using images with clear facial
 
 ## Troubleshooting
 
-### Conda not found after installation
+### UV not found after installation
 ```bash
 source ~/.bashrc
-# or
-eval "$($HOME/miniconda/bin/conda shell.bash hook)"
+# or manually add to PATH
+export PATH="$HOME/.local/bin:$PATH"
 ```
 
 ### Git LFS issues
@@ -229,7 +229,7 @@ git lfs pull
 ```
 
 ### CUDA/PyTorch version mismatches
-Each solution's `setup.sh` installs specific PyTorch versions. Keep environments isolated using conda.
+Each solution's `setup.sh` installs specific PyTorch versions. Keep environments isolated using UV virtual environments.
 
 ### FFmpeg encoding errors
 Ensure FFmpeg is compiled with x264 support:
@@ -242,7 +242,7 @@ ffmpeg -codecs | grep 264
 Contributions are welcome! To add a new solution:
 
 1. Create a new directory under `solutions/<solution_name>/`
-2. Implement `setup.sh` (conda env + dependencies + weights)
+2. Implement `setup.sh` (UV venv + dependencies + weights)
 3. Implement `infer.sh` (standardized interface with `--image`, `--audio`, `--text`, `--tts`)
 4. Add a case to `run.sh`
 5. Update this README with solution description

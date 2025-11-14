@@ -5,7 +5,7 @@ set -euo pipefail
 # Automated Complete Setup Script
 # ==========================================
 # This script automates the complete installation process:
-# 1. Bootstrap system dependencies (git, ffmpeg, miniconda)
+# 1. Bootstrap system dependencies (git, ffmpeg, UV)
 # 2. Install TTS backends (Coqui and Piper)
 # 3. Install all talking-head solutions
 #
@@ -110,7 +110,7 @@ echo "================================================"
 echo ""
 echo "This script will install:"
 if [ "$SKIP_BOOTSTRAP" = false ]; then
-    echo "  ✓ System dependencies (git, ffmpeg, miniconda)"
+    echo "  ✓ System dependencies (git, ffmpeg, UV)"
 else
     echo "  ✗ System dependencies (SKIPPED)"
 fi
@@ -162,15 +162,11 @@ if [ "$SKIP_BOOTSTRAP" = false ]; then
         FAILED_STEPS+=("bootstrap")
     fi
 
-    # Source conda for current shell
-    if [ -f "$HOME/miniconda/etc/profile.d/conda.sh" ]; then
-        source "$HOME/miniconda/etc/profile.d/conda.sh"
-        log_success "Conda sourced for current session"
-    elif [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
-        source "$HOME/anaconda3/etc/profile.d/conda.sh"
-        log_success "Conda sourced for current session"
+    # Check UV is available for current shell
+    if command -v uv &> /dev/null; then
+        log_success "UV is available in current session"
     else
-        log_warning "Conda not found, some steps may fail"
+        log_warning "UV not in PATH. You may need to: export PATH=\"\$HOME/.local/bin:\$PATH\""
     fi
 else
     log_warning "Skipping bootstrap (--skip-bootstrap)"

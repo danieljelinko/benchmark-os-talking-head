@@ -4,12 +4,11 @@ set -euo pipefail
 # ==========================================
 # Wav2Lip Setup Script
 # ==========================================
-# Sets up Wav2Lip solution: clones repo, creates conda env,
+# Sets up Wav2Lip solution: clones repo, creates UV venv,
 # installs dependencies, and downloads model weights.
 #
 # Usage: bash solutions/wav2lip/setup.sh
 
-ENV_NAME="wav2lip"
 PYTHON_VERSION="3.8"
 REPO_URL="https://github.com/Rudrabha/Wav2Lip.git"
 
@@ -17,13 +16,9 @@ echo "================================================"
 echo "Setting up Wav2Lip"
 echo "================================================"
 
-# Source conda
-if [ -f "$HOME/miniconda/etc/profile.d/conda.sh" ]; then
-    source "$HOME/miniconda/etc/profile.d/conda.sh"
-elif [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
-    source "$HOME/anaconda3/etc/profile.d/conda.sh"
-else
-    echo "ERROR: Could not find conda.sh. Is conda installed?"
+# Check if UV is available
+if ! command -v uv &> /dev/null; then
+    echo "ERROR: UV is not installed."
     echo "Please run: bash bootstrap/install_system_deps.sh"
     exit 1
 fi
@@ -31,6 +26,7 @@ fi
 # Get solution directory
 SOLUTION_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$SOLUTION_DIR/repo"
+VENV_PATH="$SOLUTION_DIR/.venv"
 
 # Clone repository if not exists
 if [ -d "$REPO_DIR" ]; then
@@ -40,24 +36,29 @@ else
     git clone "$REPO_URL" "$REPO_DIR"
 fi
 
-cd "$REPO_DIR"
-
-# Check if environment already exists
-if conda env list | grep -q "^${ENV_NAME} "; then
-    echo "Conda environment '$ENV_NAME' already exists."
+# Check if virtual environment already exists
+if [ -d "$VENV_PATH" ]; then
+    echo "Virtual environment already exists at: $VENV_PATH"
+    echo "Skipping creation..."
 else
-    echo "Creating conda environment: $ENV_NAME (Python $PYTHON_VERSION)"
-    conda create -n "$ENV_NAME" python="$PYTHON_VERSION" -y
+    echo "Installing Python $PYTHON_VERSION..."
+    uv python install "$PYTHON_VERSION"
+
+    echo "Creating virtual environment..."
+    uv venv --python "$PYTHON_VERSION" "$VENV_PATH"
 fi
 
 # Activate environment
-echo "Activating conda environment: $ENV_NAME"
-conda activate "$ENV_NAME"
+echo "Activating virtual environment..."
+source "$VENV_PATH/bin/activate"
+
+# Change to repo directory
+cd "$REPO_DIR"
 
 # Install requirements
 if [ -f requirements.txt ]; then
     echo "Installing requirements from requirements.txt..."
-    pip install -r requirements.txt
+    uv pip install -r requirements.txt
 else
     echo "WARNING: requirements.txt not found, skipping..."
 fi
@@ -123,7 +124,7 @@ echo "================================================"
 echo "Wav2Lip setup complete!"
 echo "================================================"
 echo ""
-echo "Environment: $ENV_NAME"
+echo "Virtual environment: $VENV_PATH"
 echo "Repository: $REPO_DIR"
 echo ""
 

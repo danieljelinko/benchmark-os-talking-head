@@ -87,9 +87,9 @@ To implement the framework, follow the TODOs.md file in order:
 
 ## Implementation Notes
 
-- All scripts should follow the patterns defined in plan.md
+- All scripts should follow the patterns defined in plan.md (note: migrated to UV)
 - Test each component before moving to the next
-- Keep conda environments isolated per solution
+- Keep UV virtual environments isolated per solution
 - Follow the standardized interface for all inference scripts
 - Update documentation if implementation deviates from plan
 
