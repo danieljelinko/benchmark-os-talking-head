@@ -565,8 +565,8 @@ Each solution follows the same pattern: setup.sh creates environment and downloa
 
 - [ ] **Bootstrap Test**: Run on fresh Ubuntu 22.04 VM
   - [ ] Run install_system_deps.sh
-  - [ ] Verify conda, git-lfs, ffmpeg installed
-  - [ ] Restart shell and verify conda in PATH
+  - [ ] Verify UV, git-lfs, ffmpeg installed
+  - [ ] Restart shell and verify UV in PATH
 
 - [ ] **TTS Test**: Test both backends
   - [ ] Setup Coqui TTS
