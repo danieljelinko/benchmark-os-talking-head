@@ -11,8 +11,9 @@ ENV/
 dist/
 build/
 
-# Conda
-.conda/
+# UV virtual environments
+.venv/
+**/.venv/
 
 # Solution repositories (cloned during setup)
 solutions/*/repo/
