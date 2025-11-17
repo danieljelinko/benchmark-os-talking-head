@@ -23,9 +23,20 @@ echo "================================================"
 mkdir -p "$PIPER_DIR"
 mkdir -p "$CACHE_DIR"
 
-# Check if piper binary already exists
-if [ -f "$PIPER_DIR/piper" ]; then
-    echo "Piper binary already exists at $PIPER_DIR/piper"
+# Determine if we need to (re)install the binary + shared libs
+NEED_INSTALL=false
+if [ ! -f "$PIPER_DIR/piper" ]; then
+    NEED_INSTALL=true
+fi
+if [ ! -f "$PIPER_DIR/libpiper_phonemize.so.1" ]; then
+    NEED_INSTALL=true
+fi
+if ! compgen -G "$PIPER_DIR/libonnxruntime.so."* > /dev/null; then
+    NEED_INSTALL=true
+fi
+
+if [ "$NEED_INSTALL" = false ]; then
+    echo "Piper binary and shared libraries already present in $PIPER_DIR"
     echo "Skipping download."
 else
     echo "Downloading Piper binary..."
@@ -38,8 +49,9 @@ else
     tar -xzf piper.tar.gz
 
     echo "Installing to $PIPER_DIR..."
-    mv piper/piper "$PIPER_DIR/"
-    chmod +x "$PIPER_DIR/piper"
+    # Copy binary, libs, and support files (e.g., espeak-ng-data)
+    cp -a piper/* "$PIPER_DIR/"
+    chmod +x "$PIPER_DIR/piper" "$PIPER_DIR/piper_phonemize" "$PIPER_DIR/espeak-ng"
 
     echo "Cleaning up..."
     cd - > /dev/null
